@@ -17,7 +17,7 @@ public class Main {
 
     private static void showGui() {
         JFrame frame = new JFrame("Operator");
-        frame.setSize(600, 600);
+        frame.setSize(750, 750);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.add(mainPanel);
         frame.setVisible(true);
