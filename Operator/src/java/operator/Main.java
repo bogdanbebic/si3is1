@@ -5,17 +5,27 @@
  */
 package operator;
 
+import javax.swing.*;
+
 /**
  *
  * @author Bogdan
  */
 public class Main {
 
+    private static void showGui() {
+        JFrame frame = new JFrame("Operator");
+        frame.setSize(600, 600);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+    }
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         System.out.println("Hello, World!");
+        showGui();
     }
     
 }
