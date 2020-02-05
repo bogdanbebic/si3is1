@@ -12,11 +12,13 @@ import javax.swing.*;
  * @author Bogdan
  */
 public class Main {
+    public static MainPanel mainPanel = new MainPanel();
 
     private static void showGui() {
         JFrame frame = new JFrame("Operator");
         frame.setSize(600, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.add(mainPanel);
         frame.setVisible(true);
     }
     
