@@ -15,6 +15,7 @@
             <included-library dirs="200">file.reference.javax.annotation.jar</included-library>
             <included-library dirs="200">file.reference.json-simple-1.1.1.jar</included-library>
             <included-library dirs="200">file.reference.org.json.jar</included-library>
+            <included-library dirs="200">libs.eclipselink.classpath</included-library>
         </data>
     </configuration>
 </project>
