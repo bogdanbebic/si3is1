@@ -5,6 +5,8 @@
  */
 package operator.panels;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import javax.swing.*;
 import operator.Main;
 
@@ -13,8 +15,8 @@ import operator.Main;
  * @author Bogdan
  */
 public class RequestsInfoPanel extends JPanel {
-    private JButton backButton = new JButton("Back to menu");
-    private JLabel label = new JLabel("Requests info");
+    private final JButton backButton = new JButton("Back to menu");
+    private final JLabel label = new JLabel("Requests info");
     
     {
         this.backButton.addActionListener(e -> {
@@ -28,7 +30,21 @@ public class RequestsInfoPanel extends JPanel {
     }
     
     {
+        this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        this.add(Box.createVerticalStrut(10));
         this.add(this.backButton);
+        this.add(Box.createVerticalStrut(10));
         this.add(this.label);
+        this.add(Box.createVerticalStrut(10));
+        this.add(new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                g.setColor(Color.green);
+                g.fillRect(0, 0, this.getWidth() - 1, this.getHeight() - 1);
+            }
+            
+        });
+        this.add(Box.createVerticalStrut(10));
     }
 }
