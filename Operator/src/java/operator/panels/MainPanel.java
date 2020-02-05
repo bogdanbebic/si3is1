@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package operator;
+package operator.panels;
 
 import java.awt.CardLayout;
 import javax.swing.*;
@@ -19,7 +19,7 @@ public class MainPanel extends JPanel {
     private JPanel submitPanel = new RequestSubmitPanel();
     static final String submitPanelName = "SUBMIT_PANEL";
     
-    private JPanel infoPanel = new RequestInfoPanel();
+    private JPanel infoPanel = new RequestsInfoPanel();
     static final String infoPanelName = "INFO_PANEL";
     
     {

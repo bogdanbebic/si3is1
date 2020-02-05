@@ -5,6 +5,7 @@
  */
 package operator;
 
+import operator.panels.MainPanel;
 import javax.swing.*;
 
 /**
