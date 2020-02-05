@@ -23,6 +23,11 @@ public class RequestsInfoPanel extends JPanel {
     }
     
     {
+        this.backButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+        this.label.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+    }
+    
+    {
         this.add(this.backButton);
         this.add(this.label);
     }

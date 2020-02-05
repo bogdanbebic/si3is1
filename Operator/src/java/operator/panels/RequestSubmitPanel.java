@@ -37,6 +37,8 @@ public class RequestSubmitPanel extends JPanel {
     }
     
     {
+        this.add(this.backButton);
+        this.add(this.label);
         this.add(this.submitButton);
         this.add(Box.createVerticalGlue());
     }
