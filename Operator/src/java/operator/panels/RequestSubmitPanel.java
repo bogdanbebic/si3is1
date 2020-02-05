@@ -18,7 +18,7 @@ public class RequestSubmitPanel extends JPanel {
     
     {
         this.backButton.addActionListener(e -> {
-            Main.mainPanel.showNextAtivePanel(MainPanel.menuPanelName);
+            Main.mainPanel.showNextAtivePanel(MainPanel.MENU_PANEL_NAME);
         });
     }
     

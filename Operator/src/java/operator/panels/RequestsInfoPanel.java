@@ -13,12 +13,12 @@ import operator.Main;
  * @author Bogdan
  */
 public class RequestsInfoPanel extends JPanel {
-    private JLabel label = new JLabel("Requests info");
     private JButton backButton = new JButton("Back to menu");
+    private JLabel label = new JLabel("Requests info");
     
     {
         this.backButton.addActionListener(e -> {
-            Main.mainPanel.showNextAtivePanel(MainPanel.menuPanelName);
+            Main.mainPanel.showNextAtivePanel(MainPanel.MENU_PANEL_NAME);
         });
     }
     

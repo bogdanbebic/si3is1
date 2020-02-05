@@ -18,11 +18,11 @@ public class MenuPanel extends JPanel {
     
     {
         this.submitButton.addActionListener(e -> {
-            Main.mainPanel.showNextAtivePanel(MainPanel.submitPanelName);
+            Main.mainPanel.showNextAtivePanel(MainPanel.SUBMIT_PANEL_NAME);
         });
         
         this.infoButton.addActionListener(e -> {
-            Main.mainPanel.showNextAtivePanel(MainPanel.infoPanelName);
+            Main.mainPanel.showNextAtivePanel(MainPanel.INFO_PANEL_NAME);
         });
     }
     

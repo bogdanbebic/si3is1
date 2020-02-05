@@ -13,20 +13,20 @@ import javax.swing.*;
  * @author Bogdan
  */
 public class MainPanel extends JPanel {
-    private JPanel menuPanel = new MenuPanel();
-    static final String menuPanelName = "MENU_PANEL";
+    private final JPanel menuPanel = new MenuPanel();
+    static final String MENU_PANEL_NAME = "MENU_PANEL";
     
-    private JPanel submitPanel = new RequestSubmitPanel();
-    static final String submitPanelName = "SUBMIT_PANEL";
+    private final JPanel submitPanel = new RequestSubmitPanel();
+    static final String SUBMIT_PANEL_NAME = "SUBMIT_PANEL";
     
-    private JPanel infoPanel = new RequestsInfoPanel();
-    static final String infoPanelName = "INFO_PANEL";
+    private final JPanel infoPanel = new RequestsInfoPanel();
+    static final String INFO_PANEL_NAME = "INFO_PANEL";
     
     {
         this.setLayout(new CardLayout());
-        this.add(this.menuPanel, menuPanelName);
-        this.add(this.submitPanel, submitPanelName);
-        this.add(this.infoPanel, infoPanelName);
+        this.add(this.menuPanel, MENU_PANEL_NAME);
+        this.add(this.submitPanel, SUBMIT_PANEL_NAME);
+        this.add(this.infoPanel, INFO_PANEL_NAME);
     }
     
     void showNextAtivePanel(String nextActivePanel) {
