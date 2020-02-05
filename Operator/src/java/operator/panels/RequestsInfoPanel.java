@@ -3,16 +3,17 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package operator;
+package operator.panels;
 
 import javax.swing.*;
+import operator.Main;
 
 /**
  *
  * @author Bogdan
  */
-public class RequestInfoPanel extends JPanel {
-    private JLabel label = new JLabel("Request info");
+public class RequestsInfoPanel extends JPanel {
+    private JLabel label = new JLabel("Requests info");
     private JButton backButton = new JButton("Back to menu");
     
     {
