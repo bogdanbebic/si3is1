@@ -15,6 +15,8 @@ import javax.swing.*;
  * @author Bogdan
  */
 public class Main {
+    public static TerminCentar terminCentar = new TerminCentar();
+    
     public static EntityManagerFactory emf
             = Persistence.createEntityManagerFactory(
                     "OperatorPU"
@@ -35,6 +37,7 @@ public class Main {
      */
     public static void main(String[] args) {
         System.out.println("Hello, World!");
+        System.out.println(terminCentar.getAvailableTimeslots("2020-02-20"));
         showGui();
     }
     
