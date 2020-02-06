@@ -5,8 +5,6 @@
  */
 package operator;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -15,8 +13,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -62,6 +58,11 @@ public class TerminCentar {
     private static final String checkTimeslotUrl = "/checkTimeslotAvailability/";
     private static final String terminParamName = "termin";
     
+    /**
+     * Gets all available time slots from the Termin Centar for the given day
+     * @param day String of format yyyy-MM-dd, example: "2020-02-20"
+     * @return List of available timeslots in day
+     */
     public List<Termin> getAvailableTimeslots(String day) {
         List<Termin> ret = new ArrayList<>();
         final String urlParams = "?" + myRegionalniCentarParamName 
@@ -82,13 +83,20 @@ public class TerminCentar {
                 });
             }
         } catch (Exception ignored) {}
+        
         return ret;
     }
     
+    /**
+     * Checks whether the given time slot is available
+     * @param timeslot String of format yyyy-MM-dd'T'HH:mm:ss, example: 2020-02-20T09:30:00
+     * @return Boolean representing whether the time slot is available
+     */
     public boolean isAvailableTimeslot(String timeslot) {
         final String urlParams = "?" + myRegionalniCentarParamName 
                 + "=" + myRegionalniCentar
                 + "&" + terminParamName + "=" + timeslot;
+        
         try {
             HttpURLConnection httpConnection = (HttpURLConnection) new URL(baseUrlString + checkTimeslotUrl + urlParams).openConnection();
             if (httpConnection.getResponseCode() == 200) {
