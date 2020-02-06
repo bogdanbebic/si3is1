@@ -58,6 +58,10 @@ public class TerminCentar {
     private static final String checkTimeslotUrl = "/checkTimeslotAvailability/";
     private static final String terminParamName = "termin";
     
+    public String toTimeslot(Date date) {
+        return dateFormat.format(date);
+    }
+    
     /**
      * Gets all available time slots from the Termin Centar for the given day
      * @param day String of format yyyy-MM-dd, example: "2020-02-20"

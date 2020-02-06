@@ -6,6 +6,8 @@
 package operator.panels;
 
 import java.awt.*;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.swing.*;
@@ -121,7 +123,6 @@ public class RequestSubmitPanel extends JPanel {
     {
         this.submitButton.addActionListener(e -> {
             addSubmitRequestToDatabase();
-            System.out.println("SUBMIT");
         });
     }
     
@@ -143,12 +144,21 @@ public class RequestSubmitPanel extends JPanel {
         reqFormData.setStreet(this.streetText.getText());
         reqFormData.setStreetNumber(this.streetNumberText.getText());
         
-        System.out.println(reqFormData);
         
         if (!reqFormData.checkData()) {
             JOptionPane.showMessageDialog(this, "Invalid data input", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
+        
+        String timeslot = Main.terminCentar.toTimeslot(new Date());
+        System.out.println("Timeslot: " + timeslot);
+        if (!Main.terminCentar.isAvailableTimeslot(timeslot)) {
+            JOptionPane.showMessageDialog(this, "No timeslot available", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        System.out.println("SUBMIT");
+        // TODO: send to queue
         
         EntityManager em = Main.emf.createEntityManager();
         try {

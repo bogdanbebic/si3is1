@@ -58,14 +58,16 @@ public class RequestFormData {
                 || municipality == null
                 || street == null
                 || streetNumber == null) {
-            System.out.println("Nesto je null");
+            return false;
+        }
+        
+        if (jmbg.length() != 13) {
             return false;
         }
         
         try {
             Date date = new SimpleDateFormat("yyyy-MM-dd").parse(dateOfBirth);
         } catch (ParseException ex) {
-            System.out.println("datum ne valja");
             return false;
         }
         
