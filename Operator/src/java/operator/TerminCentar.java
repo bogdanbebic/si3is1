@@ -89,4 +89,19 @@ public class TerminCentar {
         return ret;
     }
     
+    public boolean isAvailableTimeslot(String timeslot) {
+        final String urlParams = "?" + myRegionalniCentarParamName 
+                + "=" + myRegionalniCentar
+                + "&" + terminParamName + "=" + timeslot;
+        try {
+            HttpURLConnection httpConnection = (HttpURLConnection) new URL(baseUrlString + checkTimeslotUrl + urlParams).openConnection();
+            if (httpConnection.getResponseCode() == 200) {
+                JSONParser jsonParser = new JSONParser();
+                JSONObject parsed = (JSONObject) jsonParser.parse(new InputStreamReader(httpConnection.getInputStream()));
+                return parsed.get("dostupnost").toString().equals("true");
+            }
+        } catch (Exception ignored) {}
+        
+        return false;
+    }
 }

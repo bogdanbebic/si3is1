@@ -37,6 +37,7 @@ public class Main {
      */
     public static void main(String[] args) {
         System.out.println("Hello, World!");
+        System.out.println(terminCentar.isAvailableTimeslot("2020-02-20T06:30:00"));
         System.out.println(terminCentar.getAvailableTimeslots("2020-02-20"));
         showGui();
     }
