@@ -71,12 +71,8 @@ public class TerminCentar {
         try {
             HttpURLConnection httpConnection = (HttpURLConnection) new URL(baseUrlString + availableTimeslotsUrl + urlParams).openConnection();
             if (httpConnection.getResponseCode() == 200) {
-                BufferedReader buferedReader = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
-                StringBuilder stringBuilder = new StringBuilder();
-                buferedReader.lines().forEach(stringBuilder::append);
                 JSONParser jsonParser = new JSONParser();
-                JSONArray parsed = (JSONArray) jsonParser.parse(stringBuilder.toString());
-                System.out.println(parsed.get(1));
+                JSONArray parsed = (JSONArray) jsonParser.parse(new InputStreamReader(httpConnection.getInputStream()));
                 parsed.forEach(obj -> {
                     JSONObject jsonObj = (JSONObject)obj;
                     try {
