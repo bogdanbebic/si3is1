@@ -6,8 +6,12 @@
 package operator.panels;
 
 import java.awt.*;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import javax.swing.*;
 import operator.Main;
+import operator.RequestFormData;
+import operator.entity.DocumentRequest;
 
 /**
  *
@@ -116,9 +120,46 @@ public class RequestSubmitPanel extends JPanel {
 
     {
         this.submitButton.addActionListener(e -> {
-            // TODO: implement
+            addSubmitRequestToDatabase();
             System.out.println("SUBMIT");
         });
+    }
+    
+    private void addSubmitRequestToDatabase() {
+        RequestFormData reqFormData = new RequestFormData(RequestFormData.STATUS_CREATED);
+        reqFormData.setJmbg(this.jmbgText.getText());
+        reqFormData.setName(this.nameText.getText());
+        reqFormData.setSurname(this.surnameText.getText());
+        reqFormData.setNameOfMother(this.nameOfMotherText.getText());
+        reqFormData.setSurnameOfMother(this.surnameOfMotherText.getText());
+        reqFormData.setNameOfFather(this.nameOfFatherText.getText());
+        reqFormData.setSurnameOfFather(this.surnameOfFatherText.getText());
+        reqFormData.setGender(this.maleButton.isSelected() ? "M" : "F");
+        reqFormData.setDateOfBirth(this.dateOfBirthText.getText());
+        reqFormData.setNationality(this.nationalityText.getText());
+        reqFormData.setProfession(this.professionText.getText());
+        reqFormData.setMaritalStatus(this.maritalStatusText.getText());
+        reqFormData.setMunicipality(this.municipalityText.getText());
+        reqFormData.setStreet(this.streetText.getText());
+        reqFormData.setStreetNumber(this.streetNumberText.getText());
+        
+        System.out.println(reqFormData);
+        
+        if (!reqFormData.checkData()) {
+            JOptionPane.showMessageDialog(this, "Invalid data input", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        EntityManager em = Main.emf.createEntityManager();
+        try {
+            EntityTransaction et = em.getTransaction();
+            et.begin();
+            DocumentRequest docReq = reqFormData.toDocumentRequest();
+            em.persist(docReq);
+            et.commit();
+        } finally {
+            em.close();
+        }
     }
     
     {

@@ -9,6 +9,8 @@ import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -47,11 +49,10 @@ public class DocumentRequest implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 12)
     @Column(name = "id")
-    private String id;
+    private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -136,11 +137,11 @@ public class DocumentRequest implements Serializable {
     public DocumentRequest() {
     }
 
-    public DocumentRequest(String id) {
+    public DocumentRequest(Integer id) {
         this.id = id;
     }
 
-    public DocumentRequest(String id, String bracnoStanje, String brojPrebivalista, String datumRodjenja, String ime, String imeMajke, String imeOca, String jmbg, String nacionalnost, String opstinaPrebivalista, String pol, String prezime, String prezimeMajke, String prezimeOca, String profesija, String status, String ulicaPrebivalista) {
+    public DocumentRequest(Integer id, String bracnoStanje, String brojPrebivalista, String datumRodjenja, String ime, String imeMajke, String imeOca, String jmbg, String nacionalnost, String opstinaPrebivalista, String pol, String prezime, String prezimeMajke, String prezimeOca, String profesija, String status, String ulicaPrebivalista) {
         this.id = id;
         this.bracnoStanje = bracnoStanje;
         this.brojPrebivalista = brojPrebivalista;
@@ -160,11 +161,11 @@ public class DocumentRequest implements Serializable {
         this.ulicaPrebivalista = ulicaPrebivalista;
     }
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

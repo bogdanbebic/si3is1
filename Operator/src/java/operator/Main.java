@@ -5,6 +5,8 @@
  */
 package operator;
 
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import operator.panels.MainPanel;
 import javax.swing.*;
 
@@ -13,6 +15,11 @@ import javax.swing.*;
  * @author Bogdan
  */
 public class Main {
+    public static EntityManagerFactory emf
+            = Persistence.createEntityManagerFactory(
+                    "OperatorPU"
+            );
+    
     public static MainPanel mainPanel = new MainPanel();
 
     private static void showGui() {
