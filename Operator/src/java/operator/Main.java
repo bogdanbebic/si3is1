@@ -5,6 +5,8 @@
  */
 package operator;
 
+import javax.annotation.Resource;
+import javax.jms.ConnectionFactory;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import operator.panels.MainPanel;
@@ -15,6 +17,13 @@ import javax.swing.*;
  * @author Bogdan
  */
 public class Main {
+    
+    @Resource(lookup = "jms/__defaultConnectionFactory")
+    public static ConnectionFactory connectionFactory;
+    
+    @Resource(lookup = "jmsQueue")
+    public static javax.jms.Queue jmsQueue;
+    
     public static TerminCentar terminCentar = new TerminCentar();
     
     public static EntityManagerFactory emf

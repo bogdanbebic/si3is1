@@ -6,8 +6,14 @@
 package operator.panels;
 
 import java.awt.*;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.jms.JMSContext;
+import javax.jms.JMSProducer;
+import javax.jms.ObjectMessage;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
 import javax.swing.*;
@@ -127,48 +133,56 @@ public class RequestSubmitPanel extends JPanel {
     }
     
     private void addSubmitRequestToDatabase() {
-        RequestFormData reqFormData = new RequestFormData(RequestFormData.STATUS_CREATED);
-        reqFormData.setJmbg(this.jmbgText.getText());
-        reqFormData.setName(this.nameText.getText());
-        reqFormData.setSurname(this.surnameText.getText());
-        reqFormData.setNameOfMother(this.nameOfMotherText.getText());
-        reqFormData.setSurnameOfMother(this.surnameOfMotherText.getText());
-        reqFormData.setNameOfFather(this.nameOfFatherText.getText());
-        reqFormData.setSurnameOfFather(this.surnameOfFatherText.getText());
-        reqFormData.setGender(this.maleButton.isSelected() ? "M" : "F");
-        reqFormData.setDateOfBirth(this.dateOfBirthText.getText());
-        reqFormData.setNationality(this.nationalityText.getText());
-        reqFormData.setProfession(this.professionText.getText());
-        reqFormData.setMaritalStatus(this.maritalStatusText.getText());
-        reqFormData.setMunicipality(this.municipalityText.getText());
-        reqFormData.setStreet(this.streetText.getText());
-        reqFormData.setStreetNumber(this.streetNumberText.getText());
-        
-        
-        if (!reqFormData.checkData()) {
-            JOptionPane.showMessageDialog(this, "Invalid data input", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        String timeslot = Main.terminCentar.toTimeslot(new Date());
-        System.out.println("Timeslot: " + timeslot);
-        if (!Main.terminCentar.isAvailableTimeslot(timeslot)) {
-            JOptionPane.showMessageDialog(this, "No timeslot available", "Error", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
-        
-        System.out.println("SUBMIT");
-        // TODO: send to queue
-        
-        EntityManager em = Main.emf.createEntityManager();
         try {
-            EntityTransaction et = em.getTransaction();
-            et.begin();
-            DocumentRequest docReq = reqFormData.toDocumentRequest();
-            em.persist(docReq);
-            et.commit();
-        } finally {
-            em.close();
+            RequestFormData reqFormData = new RequestFormData(RequestFormData.STATUS_CREATED);
+            reqFormData.setJmbg(this.jmbgText.getText());
+            reqFormData.setName(this.nameText.getText());
+            reqFormData.setSurname(this.surnameText.getText());
+            reqFormData.setNameOfMother(this.nameOfMotherText.getText());
+            reqFormData.setSurnameOfMother(this.surnameOfMotherText.getText());
+            reqFormData.setNameOfFather(this.nameOfFatherText.getText());
+            reqFormData.setSurnameOfFather(this.surnameOfFatherText.getText());
+            reqFormData.setGender(this.maleButton.isSelected() ? "M" : "F");
+            reqFormData.setDateOfBirth(this.dateOfBirthText.getText());
+            reqFormData.setNationality(this.nationalityText.getText());
+            reqFormData.setProfession(this.professionText.getText());
+            reqFormData.setMaritalStatus(this.maritalStatusText.getText());
+            reqFormData.setMunicipality(this.municipalityText.getText());
+            reqFormData.setStreet(this.streetText.getText());
+            reqFormData.setStreetNumber(this.streetNumberText.getText());
+            
+            
+            if (!reqFormData.checkData()) {
+                JOptionPane.showMessageDialog(this, "Invalid data input", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            String timeslot = Main.terminCentar.toTimeslot(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse("2020-02-20T09:15:00"));
+            System.out.println("Timeslot: " + timeslot);
+            if (!Main.terminCentar.isAvailableTimeslot(timeslot)) {
+                JOptionPane.showMessageDialog(this, "No timeslot available", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            System.out.println("SUBMIT");
+            
+            EntityManager em = Main.emf.createEntityManager();
+            try {
+                EntityTransaction et = em.getTransaction();
+                et.begin();
+                DocumentRequest docReq = reqFormData.toDocumentRequest();
+                em.persist(docReq);
+                et.commit();
+                
+                JMSContext context = Main.connectionFactory.createContext();
+                JMSProducer producer = context.createProducer();
+                ObjectMessage objMsg = context.createObjectMessage(docReq);
+                producer.send(Main.jmsQueue, objMsg);
+            } finally {
+                em.close();
+            }
+        }   catch (ParseException ex) {
+            Logger.getLogger(RequestSubmitPanel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

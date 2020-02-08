@@ -24,3 +24,6 @@ hs_err_pid*
 /Operator/nbproject/private/
 /Operator/dist/
 /Operator/build/
+/Server/nbproject/private/
+/Server/dist/
+/Server/build/
