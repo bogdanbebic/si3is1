@@ -51,7 +51,7 @@ public class RequestsInfoPanel extends JPanel {
     
     private JLabel labelStatus = new JLabel("Status: ");
     private JLabel requestStatusLabel = new JLabel("");
-    DocumentRequest docReq = null;
+    private DocumentRequest docReq = null;
     
     private void refreshDocument(String id) {
         this.docReq = Main.persoCentar.getDocumentRequest(id);
