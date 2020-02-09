@@ -5,8 +5,10 @@
  */
 package operator.panels;
 
+import javax.persistence.EntityManager;
 import javax.swing.*;
 import operator.Main;
+import operator.entity.DocumentRequest;
 
 /**
  *
@@ -41,9 +43,56 @@ public class RequestsInfoPanel extends JPanel {
                 return;
             }
             
-            // TODO: send refresh to server
+            refreshDocument("17011" + idRequest);
             
             System.out.println("REFRESH");
+        });
+    }
+    
+    private JLabel labelStatus = new JLabel("Status: ");
+    private JLabel requestStatusLabel = new JLabel("");
+    DocumentRequest docReq = null;
+    
+    private void refreshDocument(String id) {
+        this.docReq = Main.persoCentar.getDocumentRequest(id);
+        if (docReq == null) {
+            this.requestStatusLabel.setText("Error");
+            return;
+        }
+        
+        EntityManager em = Main.emf.createEntityManager();
+        int idKey = ((DocumentRequest)em.createNamedQuery("DocumentRequest.findByJmbg")
+                .setParameter("jmbg", docReq.getJmbg()).getResultList().get(0)).getId();
+        
+        docReq.setId(idKey);
+        em.getTransaction().begin();
+        em.merge(docReq);
+        em.flush();
+        em.getTransaction().commit();
+        System.out.println("TRANSACTION COMPLETE");
+        
+        this.requestStatusLabel.setText(docReq.getStatus());
+    }
+    
+    private final JButton deliveryButton = new JButton("Deliver");
+    {
+        this.deliveryButton.addActionListener(e -> {
+            if (docReq == null) {
+                return;
+            }
+            
+            if (this.docReq.getStatus().equals("proizveden")) {
+                docReq.setStatus("Urucen");
+                
+                EntityManager em = Main.emf.createEntityManager();
+                em.getTransaction().begin();
+                em.merge(docReq);
+                em.flush();
+                em.getTransaction().commit();
+                
+                requestStatusLabel.setText(docReq.getStatus());
+                System.out.println("DELIVERED");   
+            }
         });
     }
     
@@ -55,6 +104,11 @@ public class RequestsInfoPanel extends JPanel {
         this.idLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         this.idTextField.setAlignmentX(JComponent.CENTER_ALIGNMENT);
         this.refreshButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+        
+        this.labelStatus.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+        this.requestStatusLabel.setAlignmentX(JComponent.CENTER_ALIGNMENT);
+        
+        this.deliveryButton.setAlignmentX(JComponent.CENTER_ALIGNMENT);
     }
     
     // lays out components
@@ -72,6 +126,11 @@ public class RequestsInfoPanel extends JPanel {
         panel.add(this.idTextField);
         panel.add(Box.createVerticalStrut(50));
         panel.add(this.refreshButton);
+        
+        panel.add(this.labelStatus);
+        panel.add(this.requestStatusLabel);
+        
+        panel.add(this.deliveryButton);
         
         JPanel horizontalPanel = new JPanel();
         horizontalPanel.add(panel);

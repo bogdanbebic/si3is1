@@ -26,6 +26,8 @@ public class Main {
     
     public static TerminCentar terminCentar = new TerminCentar();
     
+    public static PersoCentar persoCentar = new PersoCentar();
+    
     public static EntityManagerFactory emf
             = Persistence.createEntityManagerFactory(
                     "OperatorPU"
